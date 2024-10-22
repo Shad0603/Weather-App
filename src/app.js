@@ -11,24 +11,6 @@ app.get('/', (req, res) => {
     res.send('GET request to the / route');
 });
 
-// detect if request has an address
-// app.get("/weather", async (req, res) => {
-//     if (!req.query.address) {
-//         return res.status(400).send("Address is required");
-//     }
-//
-//     try {
-//         // Call the weatherData function with the provided address
-//         await weatherData(req.query.address, (error, result) => {
-//             if (error) {
-//                 return res.status(500).send(error); // Internal server error for better clarity
-//             }
-//             res.json(result);
-//         });
-//     } catch (error) {
-//         res.status(500).send("An error occurred while fetching weather data.");
-//     }
-// });
 app.get("/weather", (req, res) => {
     if (!req.query.address) {
         return res.status(400).send("Address is required");
