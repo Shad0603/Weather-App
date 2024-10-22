@@ -28,7 +28,6 @@ app.get("*", (req,res)=>{
     res.send("This route doesnt exist");
 })
 
-
 // Start the server and have it listen on the defined port
 // When the server starts, log a message to the console
 app.listen(port, () => {
