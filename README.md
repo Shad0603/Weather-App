@@ -29,13 +29,13 @@ This Weather App fetches weather data for a specified city or multiple cities, f
    node app.js
 ## Usage
 
-## Single City Weather Data
+### Single City Weather Data
 
 To get weather data for a single city, use the following endpoint:
 ```plaintext
 http://localhost:3000/weather?address=CityName
 ```
-## Multi-City Threshold Filter
+### Multi-City Threshold Filter
 To get weather data for multiple cities and filter by a temperature threshold, use the following endpoint:
 ```plaintext
 http://localhost:3000/weather?threshold=Temperature&cities=City1,City2,City3
