@@ -23,8 +23,10 @@ This Weather App fetches weather data for a specified city or multiple cities, f
    cd weather-app
 2. **Install dependencies:**
    ```bash
-   npm install
-3. **Run the server:**
+   npm install express axios
+3. **Configure API Key:**
+   - Add your OpenWeatherMap API Key to SECRET_KEY in weatherData.js
+4. **Run the server:**
    ```bash
    node app.js
 ## Usage
