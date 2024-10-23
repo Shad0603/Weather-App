@@ -11,7 +11,7 @@ app.get('/', (req, res) => {
 
 // Route handler for single city as well as thresholded multi-city query
 app.get("/weather", async (req, res) => {
-    const { address, threshold, cities } = req.query;
+    const { address, threshold, cities } = req.query; // Setting up for extraction of query parameters
 
     if (address) {
         // Fetch weather data for the specified city

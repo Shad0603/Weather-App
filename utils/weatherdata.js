@@ -12,7 +12,7 @@ const weatherData = async (address, callback) => {
         encodeURIComponent(address) +
         "&APPID=" +
         openWeatherMap.SECRET_KEY +
-        "&units=metric"; // Include units = metric for Celcius
+        "&units=metric"; // Include units = metric for Celsius
 
     console.log(url); // Debug log
 
