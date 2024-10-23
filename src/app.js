@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express();
-const hbs = require('hbs');
-const path = require('path');
+
 
 const port = 3000;
 
@@ -24,6 +23,7 @@ app.get("/weather", (req, res) => {
     });
 });
 
+// Handle the undefined routes
 app.get("*", (req,res)=>{
     res.send("This route doesnt exist");
 })
