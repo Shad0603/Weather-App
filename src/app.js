@@ -9,20 +9,6 @@ app.get('/', (req, res) => {
     res.send('GET request to the / route');
 });
 
-// // Route handler for single-city query
-// app.get("/weather", (req, res) => {
-//     if (!req.query.address) {
-//         return res.status(400).send("Address is required");
-//     }
-//
-//     weatherData(req.query.address, (error, result) => {
-//         if (error) {
-//             return res.status(500).send(result); // Send the error message from the callback
-//         }
-//         res.json(result);
-//     });
-// });
-
 // Route handler for single city as well as thresholded multi-city query
 app.get("/weather", async (req, res) => {
     const { address, threshold, cities } = req.query;
