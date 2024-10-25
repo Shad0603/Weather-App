@@ -37,8 +37,8 @@ To get weather data for a single city, use the following endpoint:
 ```plaintext
 http://localhost:3000/weather?address=CityName
 ```
-### Multi-City Threshold Filter
-To get weather data for multiple cities and filter by a temperature threshold, use the following endpoint:
+### Multi-City Minimum Temperature Threshold Filter
+To get weather data for multiple cities and filter by a min. temperature threshold, use the following endpoint:
 ```plaintext
 http://localhost:3000/weather?threshold=Temperature&cities=City1,City2,City3
 ```
