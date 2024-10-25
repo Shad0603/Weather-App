@@ -5,6 +5,7 @@ const port = 3000;
 
 const weatherData = require("../utils/weatherdata");
 
+
 app.get('/', (req, res) => {
     res.send('GET request to the / route');
 });
@@ -25,14 +26,14 @@ app.get("/weather", async (req, res) => {
         // Convert cities query string to an array
         const citiesArray = cities.split(',');
 
-        // Fetch weather data for each city and filter by threshold
+        // Fetch weather data for each city and filter by min. temperature threshold
         const results = [];
         let count = 0;
 
         for (const city of citiesArray) {
             weatherData(city, (error, result) => {
                 count++;
-                if (!error && result.main.temp > threshold) {
+                if (!error && result.main.temp >= threshold) {
                     results.push(result);
                 }
 
