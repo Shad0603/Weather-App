@@ -2,7 +2,7 @@
 
 This Weather App fetches weather data for a specified city or multiple cities, filtering them based on a user-defined temperature threshold. Built using Node.js, Express, and Axios, this app leverages the OpenWeatherMap API.
 
-[![My Skills](https://skillicons.dev/icons?i=js,nodejs,express&theme=light)](https://skillicons.dev)
+[![My Skills](https://skillicons.dev/icons?i=js,nodejs,express,jest&theme=light)](https://skillicons.dev)
 ## Features
 
 - **Single City Weather Data**: Fetches and displays weather data for a specified city.
@@ -24,6 +24,7 @@ This Weather App fetches weather data for a specified city or multiple cities, f
 2. **Install dependencies:**
    ```bash
    npm install express axios
+   npm install --save-dev jest
 3. **Configure API Key:**
    - Add your OpenWeatherMap API Key to SECRET_KEY in weatherData.js
 4. **Run the server:**
@@ -50,6 +51,14 @@ The app provides meaningful error messages for various scenarios, such as:
 - Invalid city names
 
 - Issues with the OpenWeatherMap API
+  
+## Testing
+
+This project includes unit tests to ensure the reliability of the weather data fetching functionality. We use Jest as our testing framework.
+To run the tests, use the following command:
+```bash
+npm test
+```
 
 ## Endpoints
 - **GET /weather**: Fetches weather data based on query parameters.
