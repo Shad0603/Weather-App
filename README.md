@@ -1,6 +1,6 @@
 # Weather App
 
-This Weather App fetches weather data for a specified city or multiple cities, filtering them based on a user-defined temperature threshold. Built using Node.js, Express, and Axios, this app leverages the OpenWeatherMap API.
+This Weather App fetches weather data for a specified city or multiple cities, filtering them based on a user-defined temperature threshold. Built using Node.js, Express, and Axios, this app leverages the OpenWeatherMap API. basic unit testing is also implementing using Jest.
 
 [![My Skills](https://skillicons.dev/icons?i=js,nodejs,express,jest&theme=light)](https://skillicons.dev)
 ## Features
