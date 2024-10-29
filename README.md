@@ -7,6 +7,8 @@ This Weather App fetches weather data for a specified city or multiple cities, f
 
 - **Single City Weather Data**: Fetches and displays weather data for a specified city.
 - **Multi-City Threshold Filter**: Fetches weather data for multiple cities and displays those above a specified temperature threshold.
+- **Weather by Coordinates**: Fetches weather data for a location specified by latitude and longitude coordinates.
+- **5-Day Weather by Coordinates**: Fetches weather data over a period of 5 days for a location specified by latitude and longitude coordinates.
 
 ## Setup
 
@@ -42,6 +44,16 @@ http://localhost:3000/weather?address=CityName
 To get weather data for multiple cities and filter by a min. temperature threshold, use the following endpoint:
 ```plaintext
 http://localhost:3000/weather?threshold=Temperature&cities=City1,City2,City3
+```
+### Get Current Weather Using Coordinates
+To get the current weather data using geographical coordinates (latitude and longitude), make a GET request to the /weather/coords endpoint with the lat and lon query parameters.
+```plaintext
+http://localhost:3000/weather/coords?lat=enter_lat&lon=enter_lon
+```
+### Get 5-Day Weather Forecast Using Coordinates
+To get a 5-day weather forecast using geographical coordinates (latitude and longitude), make a GET request to the /weather/forecast/5 endpoint with the lat and lon query parameters.
+```plaintext
+http://localhost:3000/weather/forecast/5?lat=enter_lat&lon=enter_lon
 ```
 ## Error Handling
 The app provides meaningful error messages for various scenarios, such as:
