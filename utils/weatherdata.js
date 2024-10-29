@@ -6,7 +6,7 @@ const axios = require('axios');
 const openWeatherMap = {
     BASE_URL: "https://api.openweathermap.org/data/2.5/weather?q=",
     COORDS_BASE_URL: "https://api.openweathermap.org/data/2.5/weather?",
-    FORECAST_BASE_URL: "https://api.openweathermap.org/data/2.5/forecast?",
+    FORECAST_BASE_URL: "https://api.openweathermap.org/data/2.5/forecast?", // This works for the 5-day forecast
     SECRET_KEY: "a7500de537763c63c3568504ba59830c"
 }
 
