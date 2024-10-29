@@ -71,12 +71,12 @@ app.get("/weather/coords", async (req, res) => {
     }
 });
 
-// Route for 7-day weather forecast
-app.get("/weather/forecast/7", async (req, res) => {
+// Route for 5-day weather forecast
+app.get("/weather/forecast/5", async (req, res) => {
     const { lat, lon } = req.query;
 
     if (lat && lon) {
-        weatherForecast(lat, lon, 7, (error, result) => {
+        weatherForecast(lat, lon, (error, result) => {
             if (error) {
                 return res.status(500).send(result);
             }
@@ -87,37 +87,6 @@ app.get("/weather/forecast/7", async (req, res) => {
     }
 });
 
-// Route for 14-day weather forecast
-app.get("/weather/forecast/14", async (req, res) => {
-    const { lat, lon } = req.query;
-
-    if (lat && lon) {
-        weatherForecast(lat, lon, 14, (error, result) => {
-            if (error) {
-                return res.status(500).send(result);
-            }
-            return res.json(result);
-        });
-    } else {
-        res.status(400).send("Latitude and longitude are required");
-    }
-});
-
-// Route for 30-day weather forecast
-app.get("/weather/forecast/30", async (req, res) => {
-    const { lat, lon } = req.query;
-
-    if (lat && lon) {
-        weatherForecast(lat, lon, 30, (error, result) => {
-            if (error) {
-                return res.status(500).send(result);
-            }
-            return res.json(result);
-        });
-    } else {
-        res.status(400).send("Latitude and longitude are required");
-    }
-});
 
 
 

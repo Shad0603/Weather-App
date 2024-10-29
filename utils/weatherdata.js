@@ -67,12 +67,12 @@ const weatherDataByCoords = async (lat, lon, callback) => {
     }
 };
 
-// Function to get weather forecast for a specified number of days
-const weatherForecast = async (lat, lon, days, callback) => {
+// Function to get weather forecast for 5 days
+const weatherForecast = async (lat, lon, callback) => {
     const url = openWeatherMap.FORECAST_BASE_URL +
         "lat=" + encodeURIComponent(lat) +
         "&lon=" + encodeURIComponent(lon) +
-        "&cnt=" + days +
+        // "&cnt=" + days +
         "&appid=" + openWeatherMap.SECRET_KEY +
         "&units=metric"; // Include units = metric for Celsius
 
