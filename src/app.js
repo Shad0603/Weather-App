@@ -1,9 +1,16 @@
+// This file serves as the main entry point to the node.js application.
+// It sets up the express server, defines the routes, and handles the incoming HTTP requests.
+
+
 const express = require('express');
 const app = express();
 
 const port = 3000;
 
-const weatherData = require("../utils/weatherdata");
+// const weatherData = require("../utils/weatherdata");
+// import functions
+const { weatherData, weatherDataByCoords } = require("../utils/weatherdata");
+
 
 
 app.get('/', (req, res) => {
@@ -47,6 +54,23 @@ app.get("/weather", async (req, res) => {
         res.status(400).send("Either address or cities with threshold are required");
     }
 });
+
+// Route for weather by coordinates
+app.get("/weather/coords", async (req, res) => {
+    const { lat, lon } = req.query;
+
+    if (lat && lon) {
+        weatherDataByCoords(lat, lon, (error, result) => {
+            if (error) {
+                return res.status(500).send(result);
+            }
+            return res.json(result);
+        });
+    } else {
+        res.status(400).send("Latitude and longitude are required");
+    }
+});
+
 
 
 // Handle the undefined routes
