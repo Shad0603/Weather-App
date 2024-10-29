@@ -92,6 +92,5 @@ const weatherForecast = async (lat, lon, callback) => {
     }
 };
 
-
 // Export the function so it can be used in other files
 module.exports = { weatherData, weatherDataByCoords , weatherForecast};
