@@ -6,6 +6,7 @@ const axios = require('axios');
 const openWeatherMap = {
     BASE_URL: "https://api.openweathermap.org/data/2.5/weather?q=",
     COORDS_BASE_URL: "https://api.openweathermap.org/data/2.5/weather?",
+    FORECAST_BASE_URL: "https://api.openweathermap.org/data/2.5/forecast?",
     SECRET_KEY: "a7500de537763c63c3568504ba59830c"
 }
 
@@ -66,6 +67,31 @@ const weatherDataByCoords = async (lat, lon, callback) => {
     }
 };
 
+// Function to get weather forecast for a specified number of days
+const weatherForecast = async (lat, lon, days, callback) => {
+    const url = openWeatherMap.FORECAST_BASE_URL +
+        "lat=" + encodeURIComponent(lat) +
+        "&lon=" + encodeURIComponent(lon) +
+        "&cnt=" + days +
+        "&appid=" + openWeatherMap.SECRET_KEY +
+        "&units=metric"; // Include units = metric for Celsius
+
+    console.log(url); // Debug log
+
+    try {
+        const response = await axios.get(url);
+        callback(false, response.data);
+    } catch (error) {
+        if (error.response && error.response.status === 401) {
+            callback(true, "Invalid API key. Please check your API key and try again.");
+        } else if (error.response && error.response.status === 404) {
+            callback(true, "Location not found. Please check your input.");
+        } else {
+            callback(true, "Unable to fetch data, please try again. " + error.message);
+        }
+    }
+};
+
 
 // Export the function so it can be used in other files
-module.exports = { weatherData, weatherDataByCoords };
+module.exports = { weatherData, weatherDataByCoords , weatherForecast};

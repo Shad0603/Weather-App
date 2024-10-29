@@ -9,7 +9,7 @@ const port = 3000;
 
 // const weatherData = require("../utils/weatherdata");
 // import functions
-const { weatherData, weatherDataByCoords } = require("../utils/weatherdata");
+const { weatherData, weatherDataByCoords, weatherForecast} = require("../utils/weatherdata");
 
 
 
@@ -70,6 +70,24 @@ app.get("/weather/coords", async (req, res) => {
         res.status(400).send("Latitude and longitude are required");
     }
 });
+
+// Route for 5-day weather forecast
+app.get("/weather/forecast", async (req, res) => {
+    const { lat, lon } = req.query;
+
+    if (lat && lon) {
+        weatherForecast(lat, lon, 7, (error, result) => {
+            if (error) {
+                return res.status(500).send(result);
+            }
+            return res.json(result);
+        });
+    } else {
+        res.status(400).send("Latitude and longitude are required");
+    }
+});
+
+
 
 
 
