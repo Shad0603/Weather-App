@@ -12,16 +12,16 @@ const openWeatherMap = {
 
 // Define a function to get weather data
 const weatherData = async (address, callback) => {
-    // Construct the URL for the API request
-    const url = openWeatherMap.BASE_URL +
-        encodeURIComponent(address) +
-        "&APPID=" +
-        openWeatherMap.SECRET_KEY +
-        "&units=metric"; // Include units = metric for Celsius
-
-    console.log(url); // Debug log
 
     try {
+        // Construct the URL for the API request
+        const url = openWeatherMap.BASE_URL +
+            encodeURIComponent(address) +
+            "&APPID=" +
+            openWeatherMap.SECRET_KEY +
+            "&units=metric"; // Include units = metric for Celsius
+
+        console.log(url); // Debug log
         // Make an HTTP GET request to the OpenWeatherMap API
         const response = await axios.get(url);
 
@@ -38,6 +38,39 @@ const weatherData = async (address, callback) => {
             // If there's any other error, pass an error message to the callback
             callback(true, "Unable to fetch data, please try again. " + error.message); // Handle errors
         }
+    }
+};
+
+
+const weatherDatav2 = async (address) => {
+    // Construct the URL for the API request
+    const url = openWeatherMap.BASE_URL +
+        encodeURIComponent(address) +
+        "&APPID=" +
+        openWeatherMap.SECRET_KEY +
+        "&units=metric"; // Include units = metric for Celsius
+
+    console.log(url); // Debug log
+
+    try {
+        // Make an HTTP GET request to the OpenWeatherMap API
+        const response = await axios.get(url);
+        return response.data;
+    } catch (error) {
+        let errorMessage;
+        // If the error is due to an invalid API key
+        if (error.response && error.response.status === 401) {
+            errorMessage = "Invalid API key. Please check your API key and try again."
+        } else if (error.response && error.response.status === 404) {
+            // If the error is due to a city not being found
+            errorMessage = "City not found. Please check your input.";
+        } else {
+            // If there's any other error, pass an error message to the callback
+            errorMessage = "Unable to fetch data, please try again. " + error.message";
+        }
+
+        return throw new Error(errorMessage)
+
     }
 };
 
