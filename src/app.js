@@ -8,6 +8,7 @@ const port = 3000;
 // import functions
 const { weatherData, weatherDataByCoords, weatherForecast} = require("../utils/weatherdata");
 
+// test route
 app.get('/', (req, res) => {
     res.send('GET request to the / route');
 });
@@ -18,12 +19,13 @@ app.get("/weather", async (req, res) => {
 
     if (address) {
         // Fetch weather data for the specified city
-        weatherData(address, (error, result) => {
-            if (error) {
-                return res.status(500).send(result); // Send the error message from the callback
-            }
-            return res.json(result); // Send the weather data as JSON
-        });
+        try {
+            const response = await weatherData(address);
+            return res.json(response);
+        } catch(error){
+            return res.status(500).send(error);
+        }
+
     } else if (threshold && cities) {
         // Convert cities query string to an array
         const citiesArray = cities.split(',');
@@ -33,18 +35,27 @@ app.get("/weather", async (req, res) => {
         let count = 0;
 
         for (const city of citiesArray) {
-            weatherData(city, (error, result) => {
-                count++;
-                if (!error && result.main.temp >= threshold) {
-                    results.push(result);
+            // weatherData(city, (error, result) => {
+            //     count++;
+            //     if (!error && result.main.temp >= threshold) {
+            //         results.push(result);
+            //     }
+            //
+            //     // When all cities have been processed, return the results
+            //     if (count === citiesArray.length) {
+            //         return res.json(results); // Send the filtered weather data as JSON
+            //     }
+            // });
+            try{
+                const response = await weatherDatav2(city);
+                if(response.main.temp >= threshold){
+                    results.push(response);
                 }
-
-                // When all cities have been processed, return the results
-                if (count === citiesArray.length) {
-                    return res.json(results); // Send the filtered weather data as JSON
-                }
-            });
+            } catch(error){
+                console.log(`Request failed for city ${city} with error: ${JSON.stringify(error)}`);
+            }
         }
+        return res.json(results); // return the final results
     } else {
         res.status(400).send("Either address or cities with threshold are required");
     }

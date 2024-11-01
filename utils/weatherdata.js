@@ -3,6 +3,7 @@
 
 const axios = require('axios');
 
+
 const openWeatherMap = {
     BASE_URL: "https://api.openweathermap.org/data/2.5/weather?q=",
     COORDS_BASE_URL: "https://api.openweathermap.org/data/2.5/weather?",
@@ -11,10 +12,41 @@ const openWeatherMap = {
 }
 
 // Define a function to get weather data
-const weatherData = async (address, callback) => {
+// const weatherData = async (address, callback) => {
+//     // Construct the URL for the API request
+//     const url = openWeatherMap.BASE_URL +
+//         encodeURIComponent(address) + // encodes the city name to ensure its a valid url component
+//         "&APPID=" +
+//         openWeatherMap.SECRET_KEY +
+//         "&units=metric"; // Include units = metric for Celsius
+//
+//     console.log(url); // Debug log
+//
+//     try {
+//         // Make an HTTP GET request to the OpenWeatherMap API
+//         const response = await axios.get(url);
+//
+//         // If request is successful, pass the data to the callback
+//         callback(false, response.data); // Pass the data to the callback, with 'false' indicating no error
+//     } catch (error) {
+//         // If the error is due to an invalid API key
+//         if (error.response && error.response.status === 401) {
+//             callback(true, "Invalid API key. Please check your API key and try again.");
+//         } else if (error.response && error.response.status === 404) {
+//             // If the error is due to a city not being found
+//             callback(true, "City not found. Please check your input.");
+//         } else {
+//             // If there's any other error, pass an error message to the callback
+//             callback(true, "Unable to fetch data, please try again. " + error.message); // Handle errors
+//         }
+//     }
+// };
+
+// Define a function to get weather data
+const weatherData = async (address) => {
     // Construct the URL for the API request
     const url = openWeatherMap.BASE_URL +
-        encodeURIComponent(address) +
+        encodeURIComponent(address) + // encodes the city name to ensure its a valid url component
         "&APPID=" +
         openWeatherMap.SECRET_KEY +
         "&units=metric"; // Include units = metric for Celsius
@@ -25,19 +57,21 @@ const weatherData = async (address, callback) => {
         // Make an HTTP GET request to the OpenWeatherMap API
         const response = await axios.get(url);
 
-        // If request is successful, pass the data to the callback
-        callback(false, response.data); // Pass the data to the callback
+        // If request is successful, return the data
+        return response.data;
     } catch (error) {
+        let errorMessage;
         // If the error is due to an invalid API key
         if (error.response && error.response.status === 401) {
-            callback(true, "Invalid API key. Please check your API key and try again.");
+            errorMessage = "Invalid API key. Please check your API key and try again.";
         } else if (error.response && error.response.status === 404) {
             // If the error is due to a city not being found
-            callback(true, "City not found. Please check your input.");
+            errorMessage="City not found. Please check your input.";
         } else {
             // If there's any other error, pass an error message to the callback
-            callback(true, "Unable to fetch data, please try again. " + error.message); // Handle errors
+            errorMessage="Unable to fetch data, please try again. "; // Handle errors
         }
+        throw new Error(errorMessage);
     }
 };
 
