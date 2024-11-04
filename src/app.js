@@ -35,17 +35,7 @@ app.get("/weather", async (req, res) => {
         let count = 0;
 
         for (const city of citiesArray) {
-            // weatherData(city, (error, result) => {
-            //     count++;
-            //     if (!error && result.main.temp >= threshold) {
-            //         results.push(result);
-            //     }
-            //
-            //     // When all cities have been processed, return the results
-            //     if (count === citiesArray.length) {
-            //         return res.json(results); // Send the filtered weather data as JSON
-            //     }
-            // });
+
             try{
                 const response = await weatherDatav2(city);
                 if(response.main.temp >= threshold){

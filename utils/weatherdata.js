@@ -77,7 +77,7 @@ const weatherData = async (address) => {
 
 
 // function to get weather data using coordinates
-const weatherDataByCoords = async (lat, lon, callback) => {
+const weatherDataByCoords = async (lat, lon) => {
     // const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&APPID=${openWeatherMap.SECRET_KEY}&units=metric`;
     const url = openWeatherMap.COORDS_BASE_URL +
         "lat=" + encodeURIComponent(lat) +
@@ -89,20 +89,22 @@ const weatherDataByCoords = async (lat, lon, callback) => {
 
     try {
         const response = await axios.get(url);
-        callback(false, response.data);
+        return response.data;
     } catch (error) {
+        let errorMessage;
         if (error.response && error.response.status === 401) {
-            callback(true, "Invalid API key. Please check your API key and try again.");
+            errorMessage = "Invalid API key. Please check your API key and try again.";
         } else if (error.response && error.response.status === 404) {
-            callback(true, "Location not found. Please check your input.");
+            errorMessage = "Location not found. Please check your input.";
         } else {
-            callback(true, "Unable to fetch data, please try again. " + error.message);
+            errorMessage = "Unable to fetch data, please try again. ";
         }
+        throw new Error(errorMessage);
     }
 };
 
 // Function to get weather forecast for 5 days
-const weatherForecast = async (lat, lon, callback) => {
+const weatherForecast = async (lat, lon) => {
     const url = openWeatherMap.FORECAST_BASE_URL +
         "lat=" + encodeURIComponent(lat) +
         "&lon=" + encodeURIComponent(lon) +
@@ -114,15 +116,17 @@ const weatherForecast = async (lat, lon, callback) => {
 
     try {
         const response = await axios.get(url);
-        callback(false, response.data);
+        return response.data;
     } catch (error) {
+        let errorMessage;
         if (error.response && error.response.status === 401) {
-            callback(true, "Invalid API key. Please check your API key and try again.");
+            errorMessage = "Invalid API key. Please check your API key and try again.";
         } else if (error.response && error.response.status === 404) {
-            callback(true, "Location not found. Please check your input.");
+            errorMessage = "Location not found. Please check your input.";
         } else {
-            callback(true, "Unable to fetch data, please try again. " + error.message);
+            errorMessage = "Unable to fetch data, please try again. ";
         }
+        throw new Error(errorMessage);
     }
 };
 
