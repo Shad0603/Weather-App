@@ -101,7 +101,7 @@ const weatherDataByCoords = (lat, lon) => {
 };
 
 // Function to get weather forecast for 5 days
-const weatherForecast = async (lat, lon) => {
+const weatherForecast = (lat, lon) => {
     const url = openWeatherMap.FORECAST_BASE_URL +
         "lat=" + encodeURIComponent(lat) +
         "&lon=" + encodeURIComponent(lon) +
@@ -111,20 +111,20 @@ const weatherForecast = async (lat, lon) => {
 
     console.log(url); // Debug log
 
-    try {
-        const response = await axios.get(url);
-        return response.data;
-    } catch (error) {
-        let errorMessage;
-        if (error.response && error.response.status === 401) {
-            errorMessage = "Invalid API key. Please check your API key and try again.";
-        } else if (error.response && error.response.status === 404) {
-            errorMessage = "Location not found. Please check your input.";
-        } else {
-            errorMessage = "Unable to fetch data, please try again. ";
-        }
-        throw new Error(errorMessage);
-    }
+
+    return axios.get(url)
+        .then(response => response.data)
+        .catch(error => {
+            let errorMessage;
+            if (error.response && error.response.status === 401) {
+                errorMessage = "Invalid API key. Please check your API key and try again.";
+            } else if (error.response && error.response.status === 404) {
+                errorMessage = "Location not found. Please check your input.";
+            } else {
+                errorMessage = "Unable to fetch data, please try again. ";
+            }
+            throw new Error(errorMessage);
+        });
 };
 
 // Export the function so it can be used in other files

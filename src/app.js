@@ -14,38 +14,41 @@ app.get('/', (req, res) => {
 });
 
 // Route handler for single city as well as thresholded multi-city query
-app.get("/weather", async (req, res) => {
+app.get("/weather", (req, res) => {
     const { address, threshold, cities } = req.query; // Setting up for extraction of query parameters
 
     if (address) {
         // Fetch weather data for the specified city
-        try {
-            const response = await weatherData(address);
-            return res.json(response);
-        } catch(error){
-            return res.status(500).send(error);
-        }
+        weatherData(address)
+            .then(response => res.json(response))
+            .catch(error=> res.status(500).send(error));
 
-    } else if (threshold && cities) {
+    }else if (threshold && cities) {
         // Convert cities query string to an array
         const citiesArray = cities.split(',');
 
         // Fetch weather data for each city and filter by min. temperature threshold
-        const results = [];
-        let count = 0;
+        const weatherPromises = citiesArray.map(city =>
+            weatherData(city)
+                .then(response => {
+                    if (response.main.temp >= threshold) {
+                        return response;
+                    }
+                    return null;
+                })
+                .catch(error => {
+                    console.log(`Request failed for city ${city} with error: ${JSON.stringify(error)}`);
+                    return null;
+                })
+        );
 
-        for (const city of citiesArray) {
-
-            try{
-                const response = await weatherDatav2(city);
-                if(response.main.temp >= threshold){
-                    results.push(response);
-                }
-            } catch(error){
-                console.log(`Request failed for city ${city} with error: ${JSON.stringify(error)}`);
-            }
-        }
-        return res.json(results); // return the final results
+        // Wait for all promises to resolve
+        Promise.all(weatherPromises)
+            .then(results => {
+                const filteredResults = results.filter(result => result !== null); // filter out null values
+                res.json(filteredResults); // return the final results
+            })
+            .catch(error => res.status(500).send("An error occurred while processing the requests"));
     } else {
         res.status(400).send("Either address or cities with threshold are required");
     }
@@ -56,12 +59,9 @@ app.get("/weather/coords", async (req, res) => {
     const { lat, lon } = req.query;
 
     if (lat && lon) {
-        weatherDataByCoords(lat, lon, (error, result) => {
-            if (error) {
-                return res.status(500).send(result);
-            }
-            return res.json(result);
-        });
+        weatherDataByCoords(lat, lon)
+            .then(result => res.json(result))
+            .catch(error => res.status(500).send(error.message))
     } else {
         res.status(400).send("Latitude and longitude are required");
     }
@@ -72,12 +72,9 @@ app.get("/weather/forecast/5", async (req, res) => {
     const { lat, lon } = req.query;
 
     if (lat && lon) {
-        weatherForecast(lat, lon, (error, result) => {
-            if (error) {
-                return res.status(500).send(result);
-            }
-            return res.json(result);
-        });
+        weatherForecast(lat, lon)
+            .then(result => res.json(result))
+            .catch(error => res.status(500).send(error.message))
     } else {
         res.status(400).send("Latitude and longitude are required");
     }
