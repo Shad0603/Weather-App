@@ -43,7 +43,7 @@ const openWeatherMap = {
 // };
 
 // Define a function to get weather data
-const weatherData = async (address) => {
+const weatherData = (address) => {
     // Construct the URL for the API request
     const url = openWeatherMap.BASE_URL +
         encodeURIComponent(address) + // encodes the city name to ensure its a valid url component
@@ -53,26 +53,24 @@ const weatherData = async (address) => {
 
     console.log(url); // Debug log
 
-    try {
-        // Make an HTTP GET request to the OpenWeatherMap API
-        const response = await axios.get(url);
-
-        // If request is successful, return the data
-        return response.data;
-    } catch (error) {
-        let errorMessage;
-        // If the error is due to an invalid API key
-        if (error.response && error.response.status === 401) {
-            errorMessage = "Invalid API key. Please check your API key and try again.";
-        } else if (error.response && error.response.status === 404) {
-            // If the error is due to a city not being found
-            errorMessage="City not found. Please check your input.";
-        } else {
-            // If there's any other error, pass an error message to the callback
-            errorMessage="Unable to fetch data, please try again. "; // Handle errors
-        }
-        throw new Error(errorMessage);
-    }
+    // Make an HTTP GET request to the OpenWeatherMap API
+    return axios.get(url)
+    // If request is successful, return the data
+        .then(response => response.data)
+        .catch(error => {
+            let errorMessage;
+            // If the error is due to an invalid API key
+            if (error.response && error.response.status === 401) {
+                errorMessage = "Invalid API key. Please check your API key and try again.";
+            } else if (error.response && error.response.status === 404) {
+                // If the error is due to a city not being found
+                errorMessage="City not found. Please check your input.";
+            } else {
+                // If there's any other error, pass an error message to the callback
+                errorMessage="Unable to fetch data, please try again. "; // Handle errors
+            }
+            throw new Error(errorMessage);
+    });
 };
 
 
